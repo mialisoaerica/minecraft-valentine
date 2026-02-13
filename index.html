@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Valentine's Day</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #191D23;
+            font-family: 'Press Start 2P', cursive;
+            color: #DEDCDC;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: #C5BAC4;
+            animation: float 10s linear infinite;
+        }
+
+        .heart:nth-child(odd) {
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .title {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #7E919F;
+        }
+
+        .block {
+    width: 100px;
+    height: 100px;
+    background-color: #57707A;
+    border: 2px solid #979DAB;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.6s ease, box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+.block.open {
+    transform: rotateX(60deg);
+    box-shadow: 0 0 25px #C5BAC4;
+}
+
+        .block::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background-color: #7E919F;
+            border: 1px solid #979DAB;
+        }
+
+     .block:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #C5BAC4;
+}
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #DEDCDC;
+            border: 4px solid #7E919F;
+            box-shadow: 0 0 20px rgba(126, 145, 159, 0.5);
+            padding: 20px;
+            max-width: 400px;
+            width: 90%;
+            z-index: 10;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+            color: #191D23;
+        }
+
+        .popup h2 {
+            margin-top: 0;
+            color: #57707A;
+        }
+
+        .message {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #191D23;
+        }
+
+        .close-btn {
+            background-color: #7E919F;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .close-btn:hover {
+            background-color: #979DAB;
+        }
+
+        @media (max-width: 600px) {
+            .title {
+                font-size: 12px;
+            }
+            .block {
+                width: 80px;
+                height: 80px;
+            }
+            .popup {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts">
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+        <div class="heart">♥</div>
+    </div>
+
+    <div class="container">
+        <div class="title">Open Your Valentine Gift 💌</div>
+        <div class="block" id="giftBlock"></div>
+    </div>
+
+    <div class="popup" id="valentinePopup">
+        <h2>Happy Valentine's Day!</h2>
+        <div class="message" id="customMessage">
+            <!-- Joyeuse Saint Valentin!
+Je t’aime (sans attente ni engagement 😔)
+        </div>
+        <button class="close-btn" onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        const giftBlock = document.getElementById('giftBlock');
+        const popup = document.getElementById('valentinePopup');
+
+        giftBlock.addEventListener('click', () => {
+            // Animate the block like a chest opening
+            giftBlock.style.transform = 'rotateY(180deg)';
+            setTimeout(() => {
+                popup.style.display = 'block';
+            }, 500);
+        });
+
+        function closePopup() {
+            popup.style.display = 'none';
+            giftBlock.style.transform = 'rotateY(0deg)';
+        }
+
+        // Generate random positions for hearts
+        document.addEventListener('DOMContentLoaded', () => {
+            const hearts = document.querySelectorAll('.heart');
+            hearts.forEach(heart => {
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            });
+        });
+
+const sound = document.getElementById('chestSound');
+
+giftBlock.addEventListener('click', () => {
+    giftBlock.classList.add('open');
+    sound.play();
+
+    createHeartExplosion();
+
+    setTimeout(() => {
+        popup.style.display = 'block';
+    }, 600);
+});
+
+function createHeartExplosion() {
+    for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.innerHTML = "♥";
+        heart.style.position = "absolute";
+        heart.style.color = "#C5BAC4";
+        heart.style.fontSize = "18px";
+        heart.style.left = "50%";
+        heart.style.top = "50%";
+        heart.style.pointerEvents = "none";
+        heart.style.transition = "all 1s ease-out";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.style.transform = `translate(${(Math.random()-0.5)*400}px, ${(Math.random()-0.5)*400}px)`;
+            heart.style.opacity = 0;
+        }, 10);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 1000);
+    }
+}
+
+    </script>
+ <audio id="chestSound">
+  <source src="https://www.myinstants.com/media/sounds/minecraft-chest-open.mp3" type="audio/mpeg">
+</audio>
+
+</body>
+</html>
